@@ -28,7 +28,8 @@ Preparation
 3. Make sure you added the Twistlock Password inside Google KMS.
 4. Make sure you downloaded the right config for kubectl.
 5. Make sure you are using the right cloudbuild.yml files in both repositories.
-6. Open a Browser with the following opened so you can show it during the demo:
+6. Make sure Twistlock is installed in the GKE environment.
+7. Open a Browser with the following opened so you can show it during the demo:
   - Google Cloud Source Repositories with your two repos.
   - Google Cloud Build.
   - Google KMS.
@@ -36,7 +37,7 @@ Preparation
   - Google Kubernetes Cluster GKE
   - Prisma Public Cloud compute (Twistlock)
   - Description of the Prisma Public Cloud IAC Scan #
-7. Open a terminal (I'm using iterm on my local Mac Os)
+8. Open a terminal (I'm using iterm on my local Mac Os)
 
 Flow:
 1. Change the application locally:
