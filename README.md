@@ -22,9 +22,27 @@ If you do the setup correct as described inside the tutorial the Google Cloud Bu
 
 For the demo in used the following flow:
 
-Preparation
-1. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry.
+##Preparation
 
+1. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
+2. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry of the Project.
+* Change to the the folder Dockerfiles/twistcli  go to the folder Dockerfiles/twistcli(MISSING LINK)
+  - Execute a Google Cloud Build:
+    gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli .
+  - Check Google Cloud Build History if the Job was executed without any errors.
+  - Check the Google Container Registry if the new image cloud-build-twistcli with tag latest was pushed.
+- You need to create a CI User (example cloud-build) inside your Twistlock Console that has the role CI User.
+- change the cloudbuild.yaml (add the following step to it)
+- Add a password inside the Google KMS System and also enable the Google KMS API so you can use it during a Cloud Build
+  - keyring name cloud-build, keyring location global
+  gcloud kms keyrings create cloud-build --location=global
+
+  gcloud kms keys create password --location=global --keyring=cloud-build --purpose=encryption
+  Encrypt the Twistlock Password:
+  echo -n "YOURPASSWORD" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=password | base64
+
+- The Cloud Build must have access to the Goolge KMS System: Grant the Cloud Build service account access to the CryptoKey
+https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials
 
 1. Make sure you got the application itself cloned locally (Repository hello-cloudbuild-app [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app))
 2. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
