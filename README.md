@@ -24,7 +24,13 @@ For the demo in used the following flow:
 
 ## Preparation
 
-1. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
+1. First you need to do the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
+2. Make sure that all the necessary APIs are configured for the project.
+* Google Cloud Container API `gcloud services enable container.googleapis.com`
+
+    cloudbuild.googleapis.com \
+    sourcerepo.googleapis.com \
+    containeranalysis.googleapis.com
 2. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry of the Project.
 * Change to the the folder Dockerfiles/twistcli  go to the folder Dockerfiles/twistcli(MISSING LINK)
   - Execute a Google Cloud Build:
