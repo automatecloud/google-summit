@@ -29,20 +29,25 @@ The main integration with Prisma Pulic Cloud twistcli scan and Prisma Public Clo
 * **Google Cloud Source Code Repository API**: `gcloud services enable sourcerepo.googleapis.com`
 * **Google Cloud Container Analysis API**: `gcloud services enable containeranalysis.googleapis.com`
 * **Google Cloud KMS API**: `gcloud services enable cloudkms.googleapis.com`
-3. You need to bulid a twistcli image that will be used to trigger the twistcli scan and is saved within your _Google Cloud Registry_ of the Project.
-* Change to the folder [Dockerfiles/twistcli](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/twistcli)
+3. You need to bulid a twistcli image that will be used to trigger the twistcli scan and is saved within your **Google Cloud Registry** of the project.
+* Change to the folder [Dockerfiles/cloud-build-twistcli](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/cloud-build-twistcli)
 * Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli` .
-* Check _Google Cloud Build_ History if the Job was executed without any errors.
-* Check the _Google Container Registry_ if the new image cloud-build-twistcli with tag latest was pushed.
-4. You need to create a CI User with name cloud-build inside your Twistlock Console that has the role CI User.
-5. Steps for _Google KMS System_
+* Check **Google Cloud Build** History if the Job was executed without any errors.
+* Check the **Google Container Registry** if the new image cloud-build-twistcli with tag latest was pushed.
+4. You need to build a iac image that will be used to trigger the Prisma Public Cloud IAC scan and is saved within your **Google Cloud Registry** of the project
+* Change to the folder [Dockerfiles/cloud-build-twistcli-iac](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/cloud-build-iac)
+* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-iac` .
+* Check **Google Cloud Build** History if the Job was executed without any errors.
+* Check the **Google Container Registry** if the new image cloud-build-twistcli with tag latest was pushed.
+5. You need to create a CI User with name cloud-build inside your Twistlock Console that has the role CI User.
+6. Steps for the **Google KMS System**
 * Create a new keyring with name cloud-build: `gcloud kms keyrings create cloud-build --location=global`
 * Create a new key for the Twistlock cloud-build ci user password: `gcloud kms keys create password --location=global --keyring=cloud-build --purpose=encryption`
 * Create a new key for the Twislock Console URL: `gcloud kms keys create console --location=global --keyring=cloud-build --purpose=encryption`
 * Encrypt the Twistlock Console Password: `echo -n "YOURPASSWORD" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=password | base64`
 * Encrypt the Twistlock Console URL: `echo -n "https://yourconsole:8083" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=console | base64`
 * The Cloud Build service account must have access to the Google KMS System as Described here [Grant the Cloud Build service account access to the CryptoKey](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials)
-6. changes in cloudbuild.yml?
+7. changes in cloudbuild.yml?
 
 ## Before You Demo
 
