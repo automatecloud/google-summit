@@ -22,7 +22,7 @@ If you do the setup correct as described inside the tutorial the Google Cloud Bu
 
 For the demo in used the following flow:
 
-##Preparation
+## Preparation
 
 1. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
 2. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry of the Project.
