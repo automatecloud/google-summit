@@ -28,11 +28,11 @@ For the demo in used the following flow:
 * For the app repository please use the following Git Repsitory: [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app)
 * For the env repository please use the following Git Repository: [hello-cloudbuild-env](https://github.com/automatecloud/hello-cloudbuild-env)
 2. Make sure that all the necessary APIs are configured for the project.
-* _Google Cloud Container API_: `gcloud services enable container.googleapis.com`
-* _Google Cloud Build API_: `gcloud services enable cloudbuild.googleapis.com`
-* _Google Cloud Source Code Repository API_: `gcloud services enable sourcerepo.googleapis.com`
-* _Google Cloud Container Analysis API_: `gcloud services enable containeranalysis.googleapis.com`
-* _Google Cloud KMS API_: `gcloud services enable cloudkms.googleapis.com`
+* *Google Cloud Container API*: `gcloud services enable container.googleapis.com`
+* *Google Cloud Build API*: `gcloud services enable cloudbuild.googleapis.com`
+* *Google Cloud Source Code Repository API*: `gcloud services enable sourcerepo.googleapis.com`
+* *Google Cloud Container Analysis API*: `gcloud services enable containeranalysis.googleapis.com`
+* *Google Cloud KMS API*: `gcloud services enable cloudkms.googleapis.com`
 2. You need to bulid a twistcli image that will be used to trigger the twistcli scan and is saved within your _Google Cloud Registry_ of the Project.
 * Change to the folder [Dockerfiles/twistcli](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/twistcli)
 * Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli` .
