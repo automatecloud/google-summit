@@ -3,24 +3,20 @@
 The idea of this repository is to show a full integration with Prisma Public Cloud and Google Cloud.
 
 It is using the following components:
-- **Google Cloud Source Repositories**
-- **Google Cloud Build**
-- **Google KMS**
-- **Google Container Registry**
-- **Google Kubernetes Cluster GKE**
-- Prisma Public Cloud (compute) and Prisma Public Cloud IAC Scan
+- [**Google Cloud Source Repositories**](https://cloud.google.com/source-repositories/)
+- [**Google Cloud Build**](https://cloud.google.com/cloud-build/)
+- [**Google Key Management Service (KMS)**](https://cloud.google.com/kms/)
+- [**Google Container Registry**](https://cloud.google.com/container-registry/)
+- [**Google Kubernetes Engine GKE**](https://cloud.google.com/kubernetes-engine/)
+- [**Prisma Public Cloud**](https://www.paloaltonetworks.com/cloud-security/prisma-public-cloud) and [**Prisma Public Cloud IAC Scan**](https://iacscanapidoc.redlock.io/)
 
-It is based on the following example tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build).
+This repository is based on the official example tutorial for a [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build).
 
-It is mainly using two repositories:
-1. app repository: To manage the application itself (folder hello-cloudbuild-app)
-2. env repository: contains the manifests for the Kubernetes Deployment and to manage the deployment of the application via Cloud Build (folder hello-cloudbuild-env)
+It is using two git repositories:
+1. To manage the application itself [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app)
+2. To manage the deployment that contains the manifests for the Kubernetes Deployment and to manage the deployment of the application via Cloud Build [hello-cloudbuild-env](https://github.com/automatecloud/hello-cloudbuild-env)
 
-The main integration with Twistlock twistcli scan and Prisma Public Cloud IAC is done with the cloudbuild.yaml files for each.
-
-If you do the setup correct as described inside the tutorial the Google Cloud Build CI and CD pipelines are automatically triggered via the Triggers.
-
-For the demo in used the following flow:
+The main integration with Prisma Pulic Cloud twistcli scan and Prisma Public Cloud IAC is done with the cloudbuild.yaml files for each.
 
 ## Preparation
 
@@ -48,8 +44,7 @@ For the demo in used the following flow:
 * The Cloud Build service account must have access to the Google KMS System as Described here [Grant the Cloud Build service account access to the CryptoKey](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials)
 5. changes in cloudbuild.yml?
 
-
-
+## Before You Demo
 
 1. Make sure you got the application itself cloned locally (Repository hello-cloudbuild-app [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app))
 2. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
@@ -67,7 +62,8 @@ For the demo in used the following flow:
   - Description of the Prisma Public Cloud IAC Scan #
 8. Open a terminal (I'm using iterm on my local Mac Os)
 
-Flow:
+## Demo Steps
+
 1. Change the application locally:
 
 update the app.py and the test_app.py with the right output.
