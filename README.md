@@ -3,11 +3,11 @@
 The idea of this repository is to show a full integration with Prisma Public Cloud and Google Cloud.
 
 It is using the following components:
-- Google Cloud Source Repositories
-- Google Cloud Build
-- Google KMS
-- Google Container Registry
-- Google Kubernetes Cluster GKE
+- _Google Cloud Source Repositories_
+- _Google Cloud Build_
+- _Google KMS_
+- _Google Container Registry_
+- _Google Kubernetes Cluster GKE_
 - Prisma Public Cloud (compute) and Prisma Public Cloud IAC Scan
 
 It is based on the following example tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build).
@@ -24,32 +24,32 @@ For the demo in used the following flow:
 
 ## Preparation
 
-1. First you need to do the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
+1. First you need to do the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster.
+* For the app repository please use the following Git Repsitory:[hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app)
+* For the env repository please use the following Git Repository:[hello-cloudbuild-env](https://github.com/automatecloud/hello-cloudbuild-env)
 2. Make sure that all the necessary APIs are configured for the project.
-* Google Cloud Container API: `gcloud services enable container.googleapis.com`
-* Google Cloud Build API: `gcloud services enable cloudbuild.googleapis.com`
-* Google Cloud Source Code Repository API: `gcloud services enable sourcerepo.googleapis.com`
-* Google Cloud Container Analysis API: `gcloud services enable containeranalysis.googleapis.com`
-* Google Cloud KMS API: `gcloud services enable cloudkms.googleapis.com`
+* _Google Cloud Container API_: `gcloud services enable container.googleapis.com`
+* _Google Cloud Build API_: `gcloud services enable cloudbuild.googleapis.com`
+* _Google Cloud Source Code Repository API_: `gcloud services enable sourcerepo.googleapis.com`
+* _Google Cloud Container Analysis API_: `gcloud services enable containeranalysis.googleapis.com`
+* _Google Cloud KMS API_: `gcloud services enable cloudkms.googleapis.com`
+2. You need to bulid a twistcli image that will be used to trigger the twistcli scan and is saved within your _Google Cloud Registry_ of the Project.
+* Change to the folder [Dockerfiles/twistcli](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/twistcli)
+* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli` .
+* Check _Google Cloud Build_ History if the Job was executed without any errors.
+* Check the _Google Container Registry_ if the new image cloud-build-twistcli with tag latest was pushed.
+3. You need to create a CI User with name cloud-build inside your Twistlock Console that has the role CI User.
+4. Steps for _Google KMS System_
+* Create a new keyring with name cloud-build: `gcloud kms keyrings create cloud-build --location=global`
+* Create a new key for the Twistlock cloud-build ci user password: `gcloud kms keys create password --location=global --keyring=cloud-build --purpose=encryption`
+* Create a new key for the Twislock Console URL: `gcloud kms keys create console --location=global --keyring=cloud-build --purpose=encryption`
+* Encrypt the Twistlock Console Password: `echo -n "YOURPASSWORD" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=password | base64`
+* Encrypt the Twistlock Console URL: `echo -n "https://yourconsole:8083" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=console | base64`
+* The Cloud Build service account must have access to the Google KMS System as Described here [Grant the Cloud Build service account access to the CryptoKey](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials)
+5. changes in cloudbuild.yml?
 
-2. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry of the Project.
-* Change to the the folder Dockerfiles/twistcli  go to the folder Dockerfiles/twistcli(MISSING LINK)
-  - Execute a Google Cloud Build:
-    gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli .
-  - Check Google Cloud Build History if the Job was executed without any errors.
-  - Check the Google Container Registry if the new image cloud-build-twistcli with tag latest was pushed.
-- You need to create a CI User (example cloud-build) inside your Twistlock Console that has the role CI User.
-- change the cloudbuild.yaml (add the following step to it)
-- Add a password inside the Google KMS System and also enable the Google KMS API so you can use it during a Cloud Build
-  - keyring name cloud-build, keyring location global
-  gcloud kms keyrings create cloud-build --location=global
 
-  gcloud kms keys create password --location=global --keyring=cloud-build --purpose=encryption
-  Encrypt the Twistlock Password:
-  echo -n "YOURPASSWORD" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=password | base64
 
-- The Cloud Build must have access to the Goolge KMS System: Grant the Cloud Build service account access to the CryptoKey
-https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials
 
 1. Make sure you got the application itself cloned locally (Repository hello-cloudbuild-app [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app))
 2. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
