@@ -3,11 +3,11 @@
 The idea of this repository is to show a full integration with Prisma Public Cloud and Google Cloud.
 
 It is using the following components:
-- _Google Cloud Source Repositories_
-- _Google Cloud Build_
-- _Google KMS_
-- _Google Container Registry_
-- _Google Kubernetes Cluster GKE_
+- **Google Cloud Source Repositories**
+- **Google Cloud Build**
+- **Google KMS**
+- **Google Container Registry**
+- **Google Kubernetes Cluster GKE**
 - Prisma Public Cloud (compute) and Prisma Public Cloud IAC Scan
 
 It is based on the following example tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build).
