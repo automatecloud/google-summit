@@ -6,15 +6,15 @@ It is using the following components:
 - Google Cloud Source Repositories
 - Google Cloud Build
 - Google KMS
-- Google Registry
+- Google Container Registry
 - Google Kubernetes Cluster GKE
 - Prisma Public Cloud (compute) and Prisma Public Cloud IAC Scan
 
 It is based on the following example tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build).
 
 It is mainly using two repositories:
-1. To manage the application itself (folder hello-cloudbuild-app)
-2. To manage the deployment of the application via Cloud Build (folder cloud-summit-env)
+1. app repository: To manage the application itself (folder hello-cloudbuild-app)
+2. env repository: contains the manifests for the Kubernetes Deployment and to manage the deployment of the application via Cloud Build (folder hello-cloudbuild-env)
 
 The main integration with Twistlock twistcli scan and Prisma Public Cloud IAC is done with the cloudbuild.yaml files for each.
 
@@ -23,8 +23,11 @@ If you do the setup correct as described inside the tutorial the Google Cloud Bu
 For the demo in used the following flow:
 
 Preparation
-1. Make sure you got the application itself cloned locally (folder hello-cloudbuild-app)
-2. Make sure you got the application setup as described inside the tutorial including the GKE Cluster
+1. You need to create a twistcli image that will be used to trigger the twistcli scan and is saved within your Google Registry.
+
+
+1. Make sure you got the application itself cloned locally (Repository hello-cloudbuild-app [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app))
+2. Make sure you got the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster
 3. Make sure you added the Twistlock Password inside Google KMS.
 4. Make sure you downloaded the right config for kubectl.
 5. Make sure you are using the right cloudbuild.yml files in both repositories.
@@ -46,12 +49,14 @@ update the app.py and the test_app.py with the right output.
 
 2. Build the application locally on your machine:
 
-docker build -t googlesummit:test .
+docker build -t hello-cloudbuild-app:test .
 
 3. Test the application locally:
 
-docker run -d -p 8080:8080 googlesummit:test
-Show the app running locally in your browser
+docker run -d -p 8080:8080 hello-cloudbuild-app:test
+Show the app running with your local Docker Engine:
+docker ps
+Show the app running locally in your browser (Zoom In the View of the application, so everyone can see it)
 
 4. Show the local image and image id:
 
