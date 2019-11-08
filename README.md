@@ -25,8 +25,8 @@ For the demo in used the following flow:
 ## Preparation
 
 1. First you need to do the application setup as described inside the tutorial [GitOps-style Continuous Delivery with Cloud Build](https://cloud.google.com/kubernetes-engine/docs/tutorials/gitops-cloud-build) including the GKE Cluster.
-* For the app repository please use the following Git Repsitory:[hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app)
-* For the env repository please use the following Git Repository:[hello-cloudbuild-env](https://github.com/automatecloud/hello-cloudbuild-env)
+* For the app repository please use the following Git Repsitory: [hello-cloudbuild-app](https://github.com/automatecloud/hello-cloudbuild-app)
+* For the env repository please use the following Git Repository: [hello-cloudbuild-env](https://github.com/automatecloud/hello-cloudbuild-env)
 2. Make sure that all the necessary APIs are configured for the project.
 * _Google Cloud Container API_: `gcloud services enable container.googleapis.com`
 * _Google Cloud Build API_: `gcloud services enable cloudbuild.googleapis.com`
