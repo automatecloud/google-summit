@@ -31,12 +31,12 @@ The main integration with Prisma Pulic Cloud twistcli scan and Prisma Public Clo
 * **Google Cloud KMS API**: `gcloud services enable cloudkms.googleapis.com`
 3. You need to bulid a twistcli image that will be used to trigger the twistcli scan and is saved within your **Google Cloud Registry** of the project.
 * Change to the folder [Dockerfiles/cloud-build-twistcli](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/cloud-build-twistcli)
-* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli` .
+* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-twistcli .`
 * Check **Google Cloud Build** History if the Job was executed without any errors.
 * Check the **Google Container Registry** if the new image cloud-build-twistcli with tag latest was pushed.
 4. You need to build a iac image that will be used to trigger the Prisma Public Cloud IAC scan and is saved within your **Google Cloud Registry** of the project
 * Change to the folder [Dockerfiles/cloud-build-twistcli-iac](https://github.com/automatecloud/google-summit/tree/master/Dockerfiles/cloud-build-iac)
-* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-iac` .
+* Execute a Google Cloud Build: `gcloud builds submit --tag gcr.io/[YOUR PROJECT_NAME]/cloud-build-iac .`
 * Check **Google Cloud Build** History if the Job was executed without any errors.
 * Check the **Google Container Registry** if the new image cloud-build-twistcli with tag latest was pushed.
 5. You need to create a CI User with name cloud-build inside your Twistlock Console that has the role CI User.
@@ -45,9 +45,13 @@ The main integration with Prisma Pulic Cloud twistcli scan and Prisma Public Clo
 * Create a new key for the Twistlock cloud-build ci user password: `gcloud kms keys create password --location=global --keyring=cloud-build --purpose=encryption`
 * Create a new key for the Twislock Console URL: `gcloud kms keys create console --location=global --keyring=cloud-build --purpose=encryption`
 * Encrypt the Twistlock Console Password: `echo -n "YOURPASSWORD" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=password | base64`
+* Copy the encrypted key and save it in a secure location.
 * Encrypt the Twistlock Console URL: `echo -n "https://yourconsole:8083" | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloud-build --key=console | base64`
+* Copy the encrypted key and save it in a secure location.
 * The Cloud Build service account must have access to the Google KMS System as Described here [Grant the Cloud Build service account access to the CryptoKey](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials)
-7. changes in cloudbuild.yml?
+7. Add the two encrypted keys to the [cloudbuild.yml](https://github.com/automatecloud/hello-cloudbuild-app/blob/master/cloudbuild.yaml) file of the application repository.
+* TL_CONSOLE_URL: <ADD YOUR KEY HERE>
+* TL_PASS: <ADD YOUR KEY HERE>
 
 ## Before You Demo
 
